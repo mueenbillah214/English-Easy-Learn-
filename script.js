@@ -62,14 +62,18 @@ document.getElementById("searchInput").oninput = e => {
   });
 };
 
-// Pronunciation
+// Pronunciation Fix (No more Alert Pop-ups)
 function speak(text) {
   if ('speechSynthesis' in window) {
+    // Stop any current speech
+    window.speechSynthesis.cancel(); 
+    
     const utterance = new SpeechSynthesisUtterance(text);
     utterance.lang = 'en-US';
-    speechSynthesis.speak(utterance);
+    utterance.rate = 0.9;
+    window.speechSynthesis.speak(utterance);
   } else {
-    alert("Your browser doesn't support speech. Try Chrome!");
+    console.log("Speech not supported in this browser.");
   }
 }
 
@@ -96,6 +100,7 @@ const feedbackEl = document.getElementById("feedback");
 const timerEl = document.getElementById("timer");
 
 function startTimer() {
+  clearInterval(timerInterval);
   timeLeft = 15;
   timerEl.textContent = `Time left: ${timeLeft}s`;
   timerInterval = setInterval(() => {
@@ -103,7 +108,7 @@ function startTimer() {
     timerEl.textContent = `Time left: ${timeLeft}s`;
     if (timeLeft <= 0) {
       clearInterval(timerInterval);
-      nextQuestion();
+      checkAnswer(-1); // Auto-fail on time out
     }
   }, 1000);
 }
@@ -122,8 +127,7 @@ function loadQuestion() {
   questionEl.textContent = q.q;
   optionsEl.innerHTML = "";
   feedbackEl.textContent = "";
-  timerEl.textContent = "Time left: 15s";
-
+  
   q.opts.forEach((opt, i) => {
     const btn = document.createElement("button");
     btn.textContent = opt;
@@ -141,6 +145,7 @@ function checkAnswer(selected) {
   const buttons = optionsEl.querySelectorAll("button");
 
   buttons.forEach((btn, i) => {
+    btn.disabled = true; // Disable all buttons after selection
     if (i === correct) btn.classList.add("correct");
     if (i === selected && i !== correct) btn.classList.add("wrong");
   });
@@ -149,8 +154,11 @@ function checkAnswer(selected) {
     score++;
     feedbackEl.textContent = "Correct! ✅";
     feedbackEl.style.color = "green";
+  } else if (selected === -1) {
+    feedbackEl.textContent = "Time Out! ⏰ Correct was: " + quizQuestions[current].opts[correct];
+    feedbackEl.style.color = "orange";
   } else {
-    feedbackEl.textContent = `Wrong! The correct answer is: ${quizQuestions[current].opts[correct]}`;
+    feedbackEl.textContent = `Wrong! Correct was: ${quizQuestions[current].opts[correct]}`;
     feedbackEl.style.color = "red";
   }
 
@@ -172,5 +180,5 @@ document.getElementById("restart").onclick = () => {
   loadQuestion();
 };
 
-// Start
+// Initial Start
 loadQuestion();
