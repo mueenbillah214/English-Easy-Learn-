@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>English Easy Learn - Mueen Billah</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+</head>
+<body>
+
+  <header>
+    <div class="header-content">
+      <h1>English Easy Learn</h1>
+      <p>Simple English for Everyone | Made by Mueen Billah, Rangpur, Bangladesh</p>
+      <button id="themeToggle"><i class="fas fa-moon"></i> Dark Mode</button>
+    </div>
+  </header>
+
+  <section class="daily">
+    <h2>Today's Word</h2>
+    <div id="dailyWord" class="card"></div>
+  </section>
+
+  <section class="vocab">
+    <h2>Vocabulary List</h2>
+    <input type="text" id="searchInput" placeholder="Search word... 🔍">
+    <div id="vocabList" class="vocab-grid"></div>
+  </section>
+
+  <section class="quiz-section">
+    <h2>English Quiz - Test Yourself!</h2>
+    <div id="quizContainer" class="card">
+      <div id="timer">Time left: 15s</div>
+      <h3 id="question"></h3>
+      <div id="options"></div>
+      <button id="nextBtn">Next</button>
+      <p id="feedback"></p>
+    </div>
+    <div id="result" style="display:none;" class="card">
+      <h3>Your Score: <span id="score">0</span>/10 (<span id="percent">0</span>%)</h3>
+      <button id="restart">Play Again</button>
+    </div>
+  </section>
+
+  <footer>
+    <p>© 2026 Mueen Billah | Rangpur, Bangladesh | Keep Practicing English! 🚀</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
